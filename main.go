@@ -23,6 +23,15 @@ type MemberFile struct {
 	Members []*Member `toml:"members"`
 }
 
+type Song struct {
+	No int `toml:"no"`
+	Name string `toml:"name"`
+}
+
+type SongFile struct {
+	Songs []*Song `toml:"songs"`
+}
+
 const (
 	APP_VERSION = "0.0.1"
 )
@@ -54,6 +63,28 @@ func main() {
 						member.Birthday,
 						member.Constellation,
 						member.Height,
+					}
+					fmt.Println(strings.Join(attrs, "\t"))
+				}
+				return err
+			},
+		},
+		{
+			Name:    "songs",
+			Aliases: []string{"s"},
+			Usage:   "List Song",
+			Flags:   []cli.Flag{},
+			Action: func(ctx *cli.Context) error {
+				buf, err := ioutil.ReadFile("data/songs.toml")
+				if err != nil {
+					return err
+				}
+				file := &SongFile{}
+				err = toml.Unmarshal(buf, file)
+				for _, song := range file.Songs {
+					attrs := []string{
+						fmt.Sprint(song.No),
+						song.Name,
 					}
 					fmt.Println(strings.Join(attrs, "\t"))
 				}
