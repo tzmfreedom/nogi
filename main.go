@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -24,7 +23,7 @@ type MemberFile struct {
 }
 
 type Song struct {
-	No int `toml:"no"`
+	No   int    `toml:"no"`
 	Name string `toml:"name"`
 }
 
@@ -33,7 +32,7 @@ type SongFile struct {
 }
 
 const (
-	APP_VERSION = "0.0.1"
+	APP_VERSION      = "0.0.1"
 )
 
 func main() {
@@ -49,7 +48,7 @@ func main() {
 			Usage:   "List Member",
 			Flags:   []cli.Flag{},
 			Action: func(ctx *cli.Context) error {
-				buf, err := ioutil.ReadFile("data/members.toml")
+				buf, err := dataMembersTomlBytes()
 				if err != nil {
 					return err
 				}
@@ -75,7 +74,7 @@ func main() {
 			Usage:   "List Song",
 			Flags:   []cli.Flag{},
 			Action: func(ctx *cli.Context) error {
-				buf, err := ioutil.ReadFile("data/songs.toml")
+				buf, err := dataSongsTomlBytes()
 				if err != nil {
 					return err
 				}
