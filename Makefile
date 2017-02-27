@@ -15,5 +15,5 @@ build: clean
 	@goimports -w .
 	@gofmt -w .
 	@go-bindata data/
-	@goimports -w .
+	@go build .
 
