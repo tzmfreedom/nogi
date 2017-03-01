@@ -32,7 +32,7 @@ type SongFile struct {
 }
 
 const (
-	APP_VERSION      = "0.0.1"
+	APP_VERSION = "0.0.1"
 )
 
 func main() {
@@ -48,7 +48,7 @@ func main() {
 			Usage:   "List Member",
 			Flags:   []cli.Flag{},
 			Action: func(ctx *cli.Context) error {
-				buf, err := dataMembersTomlBytes()
+				buf, err := Asset("data/members.toml")
 				if err != nil {
 					return err
 				}
@@ -74,7 +74,7 @@ func main() {
 			Usage:   "List Song",
 			Flags:   []cli.Flag{},
 			Action: func(ctx *cli.Context) error {
-				buf, err := dataSongsTomlBytes()
+				buf, err := Asset("data/songs.toml")
 				if err != nil {
 					return err
 				}
