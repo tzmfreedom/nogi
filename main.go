@@ -31,16 +31,20 @@ type SongFile struct {
 	Songs []*Song `toml:"songs"`
 }
 
-const (
-	APP_VERSION = "0.0.1"
+var (
+	Version  string
+	Revision string
 )
 
 func main() {
+	cli.VersionPrinter = func(c *cli.Context) {
+		fmt.Printf("version=%s revision=%s\n", c.App.Version, Revision)
+	}
 	app := cli.NewApp()
 	app.Name = "nogi"
 
 	app.Usage = "Nogizaka 46 Command Line Interface"
-	app.Version = APP_VERSION
+	app.Version = Version
 	app.Commands = []cli.Command{
 		{
 			Name:    "members",
