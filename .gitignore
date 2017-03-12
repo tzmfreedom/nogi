@@ -2,3 +2,4 @@
 /vendor/
 /bin/
 /dist/
+*.tar.gz
