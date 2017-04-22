@@ -3,6 +3,7 @@ SRCS := $(shell find . -type d -name vendor -prune -o -type f -name "*.go" -prin
 VERSION := 0.1.0
 REVISION := $(shell git rev-parse --short HEAD)
 LDFLAGS := -ldflags="-s -w -X \"main.Version=$(VERSION)\" -X \"main.Revision=$(REVISION)\"" 
+DIST_DIRS := find * -type d -exec
 
 .DEFAULT_GOAL := bin/$(NAME) 
 
@@ -28,14 +29,11 @@ dist-clean: clean
 	@rm -f $(NAME).tar.gz
 
 .PHONY: cross-build
-cross-build: clean
-	-@goimports -w .
-	@gofmt -w .
-	@go build $(LDFLAGS)
+cross-build: deps
 	@for os in darwin linux windows; do \
 	    for arch in amd64 386; do \
 	        GOOS=$$os GOARCH=$$arch CGO_ENABLED=0 go build -a -tags netgo \
-	        -installsuffix netgo $(LDFLAGS) -o dist/$(NAME)-$$os-$$arch; \
+	        -installsuffix netgo $(LDFLAGS) -o dist/$$os-$$arch/$(NAME)-$$os-$$arch; \
 	    done; \
 	done
 
@@ -55,5 +53,9 @@ bin/$(NAME): $(SRCS)
 
 .PHONY: dist
 dist:
-	@tar czfh $(NAME).tar.gz $(shell git ls-files)
+	@cd dist && \
+		$(DIST_DIRS) cp ../LICENSE {} \; && \
+		$(DIST_DIRS) cp ../README.md {} \; && \
+		$(DIST_DIRS) cp ../completions/zsh/_nogi {} \; && \
+		$(DIST_DIRS) tar zcf $(NAME)-$(VERSION)-{}.tar.gz {} \;
 

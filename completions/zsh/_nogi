@@ -1,0 +1,8 @@
+#compdef nogi
+
+function __nogi_subcommands() {
+  _values '' 'songs[list songs]' 'members[list members]' {-h,--help,help}'[show help]'
+}
+
+_arguments '1: :__nogi_subcommands'
+
