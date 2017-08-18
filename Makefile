@@ -43,6 +43,11 @@ ifeq ($(shell command -v glide 2> /dev/null),)
 	curl https://glide.sh/get | sh
 endif
 
+.PHONY: hash
+hash: 
+	openssl dgst -sha256 dist/$(NAME)-$(VERSION)-darwin-386.tar.gz
+	openssl dgst -sha256 dist/$(NAME)-$(VERSION)-darwin-amd64.tar.gz
+
 .PHONY: deps
 deps: glide
 	glide install
