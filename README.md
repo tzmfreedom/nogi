@@ -39,7 +39,7 @@ no = 19
 
 2. Execute [go-bindata](https://github.com/jteeuwen/go-bindata) to create bindata.go.
 ```bash
-$ go-bindata data/
+$ go-bindata data/ # or make build
 ```
 
 ## License

@@ -52,9 +52,16 @@ hash:
 deps: glide
 	glide install
 
-build: 
+.PHONY: build
+build: dev/deps
 	go-bindata data/
 	make bin/$(NAME)
+
+.PHONY: dev/deps
+dev/deps:
+ifeq ($(shell command -v go-bindata 2> /dev/null),)
+	go get -u github.com/jteeuwen/go-bindata/...
+endif
 
 .PHONY: bin/$(NAME) 
 bin/$(NAME): $(SRCS)
