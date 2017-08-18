@@ -47,6 +47,10 @@ endif
 deps: glide
 	glide install
 
+build: 
+	go-bindata data/
+	make bin/$(NAME)
+
 .PHONY: bin/$(NAME) 
 bin/$(NAME): $(SRCS)
 	go build -a -tags netgo -installsuffix netgo $(LDFLAGS) -o bin/$(NAME) .
